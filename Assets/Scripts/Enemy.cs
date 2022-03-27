@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,27 +7,39 @@ using NaughtyAttributes;
 
 public class Enemy : MonoBehaviour {
 
-    public int hp = 1;
+    public int hp = 2;
 
     public Animator anim;
     public string playerName;
+    public GameObject hp_bar;
 
     /*––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––*/
 
     MainPlayer mp;
+    int defaultHP;
 
     /*––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––*/
 
-    void Awake() => hp = 1;
+    void Awake() => defaultHP = hp = 1;
 
-    void Start() => mp = GameObject.Find( playerName ).GetComponent<MainPlayer>();
+    void Start(){
+
+        mp = GameObject.Find( playerName ).GetComponent<MainPlayer>();
+
+        hp_bar.GetComponent<Slider>().maxValue = defaultHP + 1;
+
+    }
 
     /*––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––*/
 
     void Update(){
 
+        if ( hp >= 0 )
+            hp_bar.GetComponent<Slider>().value = hp + 1;
 
-        
+        else
+            Destroy( hp_bar );
+
     }
 
     /*––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––*/
